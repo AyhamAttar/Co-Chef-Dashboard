@@ -35,10 +35,11 @@ The build artifacts will be stored in the `dist/` directory.
 
 ## 📂 Project Structure
 
-- `src/app/components`: Contains all the standalone UI components (e.g., Sidebar, Navbar, Admin views).
+- `src/app/components`: Contains shared standalone UI components.
+- `src/app/core`: Core application modules and utilities (e.g., custom Angular pipes).
+- `src/app/layout`: Application layout components (e.g., Sidebar, Navbar).
+- `src/app/pages`: Feature pages and views corresponding to application routes (e.g., Admins, Users, Recipes).
 - `src/app/services`: Contains injectable services for API communication and state management.
-- `src/app/pipes`: Contains custom Angular pipes.
-- `src/app/guards`: Contains route guards for access control.
 - `src/environments`: Environment-specific configuration files.
 
 ## 🤝 Contributing
