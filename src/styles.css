@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Color Palette */
+    --primary-red: #750706;
+    --dark-red: #470f10;
+    --hover-red: #8f0c0b;
+    --light-red-bg: rgba(117, 7, 6, 0.05);
+    
+    --bg-color: #f4f6f8;
+    --surface-color: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    
+    /* Effects */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Geometry */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    
+    --transition: all 0.2s ease-in-out;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Typography & Links */
+a {
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--hover-red);
+    text-decoration: none;
+}
+
+/* Global Board Layout */
+.board {
+    background: var(--surface-color);
+    min-height: calc(100vh - 120px);
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+/* Global Tables */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.table thead {
+    background-color: var(--dark-red);
+    color: white;
+}
+
+.table thead th {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    border: none;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: var(--radius-md);
+}
+
+.table thead th:last-child {
+    border-top-right-radius: var(--radius-md);
+}
+
+.table tbody tr {
+    transition: var(--transition);
+}
+
+.table tbody tr:hover {
+    background-color: var(--light-red-bg);
+}
+
+.table td {
+    padding: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.tr-center {
+    text-align: center;
+}
+
+.blocked {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.blocked td:nth-child(2) {
+    text-decoration: line-through;
+}
+
+/* Forms & Inputs */
+.search {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 24px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    transition: var(--transition);
+}
+
+.search:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(117, 7, 6, 0.15);
+}
+
+.add {
+    margin-bottom: 24px;
+}
+
+/* Buttons */
+.btn {
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    padding: 8px 20px;
+}
+
+.btn-primary.btn-cochef,
+.btn-primary.btn-card-accept {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+    color: white;
+}
+
+.btn-primary.btn-cochef:hover,
+.btn-primary.btn-card-accept:hover {
+    background-color: var(--hover-red);
+    border-color: var(--hover-red);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary.btn-cochef:focus {
+    box-shadow: 0 0 0 3px rgba(117, 7, 6, 0.25);
+}
+
+.btn-secondary.btn-cochef,
+.btn-secondary.btn-card-reject {
+    background-color: #e2e8f0;
+    border-color: #e2e8f0;
+    color: var(--text-primary);
+}
+
+.btn-secondary.btn-cochef:hover,
+.btn-secondary.btn-card-reject:hover {
+    background-color: #cbd5e1;
+    border-color: #cbd5e1;
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+/* Cards specific */
+.btn-card {
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+img {
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+
+.covered {
+    padding: unset;
+    margin: unset;
+}

@@ -1,0 +1,82 @@
+.wrapper {
+    color: white;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar {
+    background: var(--primary-red);
+    width: 100%;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h1 {
+    background: var(--dark-red);
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    margin: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar h1 a {
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.sidebar ul li {
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+    transition: var(--transition);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar ul li a {
+    color: inherit;
+}
+
+.sidebar ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar ul li:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.active {
+    background-color: var(--dark-red) !important;
+    border-left: 4px solid white !important;
+    color: white !important;
+}
+
+.bi {
+    margin-right: 14px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}

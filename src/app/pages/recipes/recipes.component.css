@@ -1,0 +1,76 @@
+.table td {
+    border: none;
+    text-overflow: ellipsis;
+}
+
+h5 {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.card {
+    height: 280px;
+    margin-top: 32px;
+    margin-right: 10px;
+    position: relative;
+    border: none;
+    box-shadow: -1px -1px 6px 1px #750706;
+}
+
+.img-container {
+    width: 100%;
+    position: relative;
+    height: 200px;
+}
+
+.img-container img {
+    width: 100%;
+    height: 200px;
+    border-radius: 5%;
+    box-shadow: 1px 1px 8px 1px #470f10;
+}
+
+img {
+    height: 175px;
+}
+
+.cell {
+    padding: 0 !important;
+}
+
+.badge-cochef {
+    background-color: #750706;
+    min-width: 20px;
+    height: 20px;
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -10px;
+}
+
+.empty {
+    height: 0;
+    width: 25%;
+}
+
+.modal-content {
+    min-height: 70vh;
+    max-height: 90vh;
+    overflow: auto;
+    border: none;
+    box-shadow: 1px 1px 8px 2px black;
+}
+
+.modal-header {
+    justify-content: center;
+    background-color: #470f10;
+    color: white;
+    border: none;
+}
+
+.modal-footer {
+    position: relative;
+}
+
+.modal-footer>* {
+    margin: unset;
+}

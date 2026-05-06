@@ -1,0 +1,81 @@
+<div class="container board">
+  <div class="row">
+    <div class="input-group search">
+      <input type="search" class="form-control" placeholder="Search" name="search" #search [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)">
+      <div class="input-group-append">
+        <button class="btn btn-primary btn-cochef">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="input-group add ml-5">
+      <a class="btn btn-primary btn-cochef" data-toggle="modal" data-target="#showForm">Add Driver +</a>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr class="tr-center">
+        <th>#</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (driver of drivers() | filter:searchTerm(); track driver.id) {
+        <tr class="tr-center" [class.blocked]="driver.state === 'blocked'">
+          <td> {{driver.id}} </td>
+          <td> {{driver.name}} </td>
+          <td> {{driver.mobile}} </td>
+          <td>
+            @if (driver.state === 'active') {
+              <a class="btn btn-danger" (click)="changeDriverState(driver)">
+                <i class="bi bi-slash-circle"></i>
+              </a>
+            } @else {
+              <a class="btn btn-danger" (click)="changeDriverState(driver)">
+                <i class="bi bi-check-circle"></i>
+              </a>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Show Modal -->
+<div id="showForm" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> Add Driver : </h4>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm">
+          <div class="form-group">
+            <input class="form-control" type="text" ngModel name="name" placeholder="name :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="mobile" ngModel name="mobile" placeholder="mobile :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ngModel name="password" placeholder="password :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ngModel name="confirmPassword" placeholder="confirm password :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="date" ngModel name="birth" placeholder="birth date :">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-cochef" (click)="addDriver(form.value)" data-dismiss="modal">Add+</button>
+      </div>
+    </div>
+  </div>
+</div>

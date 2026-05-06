@@ -1,0 +1,378 @@
+<div class="container">
+  <div class="row">
+    <!-- Received Orders -->
+    <div class="col-lg-3">
+      <div class="badge badge-cochef">
+        Received Orders
+        <span class="badge badge-pill badge-cochef-alt"> {{received().length}} </span>
+      </div>
+      @for (order of received(); track order.id) {
+        <div class="card">
+          <table class="table">
+            <tr>
+              <th>
+                <i class="bi bi-bell"></i>
+              </th>
+              @if (order.status == 0 || order.status == 5) {
+                <td> طلب مكونات </td>
+              }
+              @if (order.status == 9 || order.status == 10 || order.status == 13) {
+                <td> طلب وجبة
+                  @if (order.status == 10) {
+                    <span> &nbsp;&nbsp; <i class="bi bi-check-circle"></i></span>
+                  }
+                </td>
+              }
+            </tr>
+            @if (order.status == 9 || order.status == 10 || order.status == 13) {
+              <tr>
+                <th>
+                  <i class="bi bi-clock"></i>
+                </th>
+                <td>{{order.meal?.preparation_time | duration}}</td>
+              </tr>
+            }
+            @if (order.status == 0 || order.status == 5) {
+              <tr>
+                <th>
+                  <i class="bi bi-apple"></i>
+                </th>
+                <td>
+                  <a (click)="showOrderIngredients(order.ingredients)" data-toggle="modal" data-target="#showIngredients">
+                    <u style="cursor: pointer; color: #750706;">show</u>
+                  </a>
+                </td>
+              </tr>
+            }
+            <tr>
+              <th>
+                <i class="bi bi-cash-stack"></i>
+              </th>
+              <td> {{order.payment | number : '1.0'}} s.p </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-geo-alt"></i>
+              </th>
+              <td> {{order.address.area}} , {{order.address.subarea}} </td>
+            </tr>
+          </table>
+          <div class="card-body">
+            @if (order.status == 0  || order.status == 5) {
+              <a class="btn btn-primary btn-card btn-card-accept" (click)="getNearestMarkets(order)" data-toggle="modal" data-target="#showMarkets">Dispatch</a>
+            }
+            @if (order.status == 10 || order.status == 13) {
+              <a class="btn btn-primary btn-card btn-card-accept" (click)="getNearestDrivers(order)" data-toggle="modal" data-target="#showDrivers">Dispatch</a>
+            }
+            @if (order.status == 9) {
+              <a class="btn btn-primary btn-card btn-card-accept" (click)="acceptOrder(order)">Accept</a>
+            }
+            <a class="btn btn-secondary btn-card btn-card-reject" (click)="rejectOrder(order)">Reject</a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Dispatched to Market -->
+    <div class="col-lg-3">
+      <div class="badge badge-cochef">
+        Dispatched to Market
+        <span class="badge badge-pill badge-cochef-alt"> {{dispatchedToMarket().length}} </span>
+      </div>
+      @for (order of dispatchedToMarket(); track order.id) {
+        <div class="card">
+          <table class="table">
+            <tr>
+              <th>
+                <i class="bi bi-bell"></i>
+              </th>
+              <td> طلب مكونات
+                @if (order.status == 4) {
+                  <span> &nbsp;&nbsp; <i class="bi bi-check-circle"></i></span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-apple"></i>
+              </th>
+              <td>
+                <a (click)="showOrderIngredients(order.ingredients)" data-toggle="modal" data-target="#showIngredients">
+                  <u style="cursor: pointer; color: #750706;">show</u>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-cash-stack"></i>
+              </th>
+              <td> {{order.payment | number : '1.0'}} s.p </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-geo-alt"></i>
+              </th>
+              <td> {{order.address.area}} , {{order.address.subarea}} </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-shop"></i>
+              </th>
+              <td> {{order.market}} </td>
+            </tr>
+          </table>
+          <div class="card-body">
+            <a class="btn btn-primary btn-card btn-card-accept" (click)="getNearestDrivers(order)" data-toggle="modal" data-target="#showDrivers">Dispatch</a>
+            <a class="btn btn-secondary btn-card btn-card-reject" (click)="rejectOrder(order)">Reject</a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Dispatched to Driver -->
+    <div class="col-lg-3">
+      <div class="badge badge-cochef">
+        Dispatched to Driver
+        <span class="badge badge-pill badge-cochef-alt"> {{dispatchedToDriver().length}} </span>
+      </div>
+      @for (order of dispatchedToDriver(); track order.id) {
+        <div class="card">
+          <table class="table">
+            <tr>
+              <th>
+                <i class="bi bi-bell"></i>
+              </th>
+              @if (order.status == 6) {
+                <td> طلب مكونات </td>
+              }
+              @if (order.status == 11) {
+                <td> طلب وجبة </td>
+              }
+            </tr>
+            @if (order.status == 6) {
+              <tr>
+                <th>
+                  <i class="bi bi-apple"></i>
+                </th>
+                <td>
+                  <a (click)="showOrderIngredients(order.ingredients)" data-toggle="modal" data-target="#showIngredients">
+                    <u style="cursor: pointer; color: #750706;">show</u>
+                  </a>
+                </td>
+              </tr>
+            }
+            <tr>
+              <th>
+                <i class="bi bi-cash-stack"></i>
+              </th>
+              <td> {{order.payment | number : '1.0'}} s.p </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-geo-alt"></i>
+              </th>
+              <td> {{order.address.area}} , {{order.address.subarea}} </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-scooter"></i>
+              </th>
+              <td> {{order.driver?.name}} </td>
+            </tr>
+          </table>
+          <div class="card-body">
+            <a class="btn btn-primary btn-card btn-card-accept" (click)="showDetails(order)" data-toggle="modal" data-target="#showDetails" style="width: 100%;">Details</a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- On Delivery -->
+    <div class="col-lg-3">
+      <div class="badge badge-cochef">
+        On Delivery
+        <span class="badge badge-pill badge-cochef-alt"> {{onDelivery().length}} </span>
+      </div>
+      @for (order of onDelivery(); track order.id) {
+        <div class="card">
+          <table class="table">
+            <tr>
+              <th>
+                <i class="bi bi-bell"></i>
+              </th>
+              @if (order.status == 7) {
+                <td> طلب مكونات </td>
+              }
+              @if (order.status == 12) {
+                <td> طلب وجبة </td>
+              }
+            </tr>
+            @if (order.status == 12) {
+              <tr>
+                <th>
+                  <i class="bi bi-clock"></i>
+                </th>
+                <td>{{order.meal?.preparation_time | duration}}</td>
+              </tr>
+            }
+            @if (order.status == 7) {
+              <tr>
+                <th>
+                  <i class="bi bi-apple"></i>
+                </th>
+                <td>
+                  <a (click)="showOrderIngredients(order.ingredients)" data-toggle="modal" data-target="#showIngredients">
+                    <u style="cursor: pointer; color: #750706;">show</u>
+                  </a>
+                </td>
+              </tr>
+            }
+            <tr>
+              <th>
+                <i class="bi bi-cash-stack"></i>
+              </th>
+              <td> {{order.payment | number : '1.0'}} s.p </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-geo-alt"></i>
+              </th>
+              <td> {{order.address.area}} , {{order.address.subarea}} </td>
+            </tr>
+            <tr>
+              <th>
+                <i class="bi bi-scooter"></i>
+              </th>
+              <td> {{order.driver?.name}} </td>
+            </tr>
+          </table>
+          <div class="card-body">
+            <a class="btn btn-primary btn-card btn-card-accept" (click)="showDetails(order)" data-toggle="modal" data-target="#showDetails" style="width: 100%;">Details</a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+<div style="height: 25px;"> </div>
+
+<!-- Show Modal Ingredients -->
+<div id="showIngredients" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <th> Ingredient </th>
+            <th> Quantity </th>
+          </tr>
+          @for (ingredient of orderIngredients(); track ingredient.id) {
+            <tr>
+              <td> {{ingredient.name}} </td>
+              <td> {{ingredient.quantity + " " + ingredient.amount?.unit}} </td>
+            </tr>
+          }
+        </table>
+        <div class="col-lg-6" style="position: absolute; bottom: 20px; left: 10px;">
+          <a class="btn btn-primary btn-cochef" data-dismiss="modal">back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Modal Details -->
+<div id="showDetails" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        @let current = currentOrder();
+        <table class="table">
+          <tr>
+            <th> Id :</th>
+            <td> {{current.id}} </td>
+          </tr>
+          <tr>
+            <th> State :</th>
+            <td> {{current.state}} </td>
+          </tr>
+          <tr>
+            <th> Date :</th>
+            <td> {{current.date | date : 'short'}} </td>
+          </tr>
+          <tr>
+            <th> Payment :</th>
+            <td> {{current.payment}} </td>
+          </tr>
+          <tr>
+            <th> Customer Address:</th>
+            <td> {{current.address?.area}} , {{current.address?.subarea}} </td>
+          </tr>
+          <tr>
+            <th> Customer Phone :</th>
+            <td> {{current.user_mobile}} </td>
+          </tr>
+          <tr>
+            <th> Market :</th>
+            <td> {{current.market}} </td>
+          </tr>
+          <tr>
+            <th> Driver Phone :</th>
+            <td> {{current.driver?.mobile}} </td>
+          </tr>
+        </table>
+        <div class="col-lg-6" style="position: absolute; bottom: 20px; left: 10px;">
+          <a class="btn btn-primary btn-cochef" data-dismiss="modal">back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Modal Markets -->
+<div id="showMarkets" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Nearest Markets</h4>
+        <form #marketForm="ngForm" style="padding: 25px;">
+          @for (market of nearestMarkets(); track market.id) {
+            <div class="radio">
+              <label><input class="mr-3" type="radio" name="markets" ngModel [value]="market.id"> {{market.name}} </label>
+            </div>
+          }
+          <div class="col-lg-3" style="position: absolute; bottom: 20px; left: 10px;">
+            <a class="btn btn-secondary btn-cochef" data-dismiss="modal">back</a>
+          </div>
+          <div class="col-lg-3" style="position: absolute; bottom: 20px; right: 10px;">
+            <a class="btn btn-primary btn-cochef" (click)="dispatchToMarket(marketForm)" data-dismiss="modal">confirm</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Modal Drivers -->
+<div id="showDrivers" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Nearest Drivers</h4>
+        <form #driverForm="ngForm" style="padding: 25px;">
+          @for (driver of nearestDrivers(); track driver.id) {
+            <div class="radio">
+              <label><input class="mr-3" type="radio" name="drivers" ngModel [value]="driver.id"> {{driver.name}} </label>
+            </div>
+          }
+          <div class="col-lg-3" style="position: absolute; bottom: 20px; left: 10px;">
+            <a class="btn btn-secondary btn-cochef" data-dismiss="modal">back</a>
+          </div>
+          <div class="col-lg-3" style="position: absolute; bottom: 20px; right: 10px;">
+            <a class="btn btn-primary btn-cochef" (click)="dispatchToDriver(driverForm)" data-dismiss="modal">confirm</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

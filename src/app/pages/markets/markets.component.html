@@ -1,0 +1,99 @@
+<div class="container board">
+  <div class="row">
+    <div class="input-group search">
+      <input type="search" class="form-control" placeholder="Search" name="search" #search [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)">
+      <div class="input-group-append">
+        <button class="btn btn-primary btn-cochef">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="input-group add ml-5">
+      <a class="btn btn-primary btn-cochef" data-toggle="modal" data-target="#showForm">Add Market +</a>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr class="tr-center">
+        <th>#</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (market of markets() | filter:searchTerm(); track market.id) {
+        <tr class="tr-center" [class.blocked]="market.state === 'blocked'">
+          <td> {{market.id}} </td>
+          <td> {{market.name}} </td>
+          <td> {{market.mobile}} </td>
+          <td>
+            @if (market.state === 'active') {
+              <a class="btn btn-danger" (click)="changeMarketState(market)">
+                <i class="bi bi-slash-circle"></i>
+              </a>
+            } @else {
+              <a class="btn btn-danger" (click)="changeMarketState(market)">
+                <i class="bi bi-check-circle"></i>
+              </a>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Show Modal -->
+<div id="showForm" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> Add Market : </h4>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm">
+          <div class="form-group">
+            <input class="form-control" type="text" ngModel name="name" placeholder="name :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="mobile" ngModel name="mobile" placeholder="mobile :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ngModel name="password" placeholder="password :">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ngModel name="confirmPassword" placeholder="confirm password :">
+          </div>
+          <div class="form-group">
+            <select class="form-control" [ngModel]="selectedCity()" (ngModelChange)="selectedCity.set($event)" name="city" (change)="onSelectCity()">
+              @for (city of cities(); track city.id) {
+                <option> {{city.name}} </option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" [ngModel]="selectedArea()" (ngModelChange)="selectedArea.set($event)" name="area" (change)="onSelectArea()">
+              @for (area of areas(); track area.id) {
+                <option> {{area.name}} </option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" [ngModel]="selectedSubarea()" (ngModelChange)="selectedSubarea.set($event)" name="subarea" (change)="onSelectSubarea()">
+              @for (subarea of subareas(); track subarea.id) {
+                <option> {{subarea.name}} </option>
+              }
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-cochef" (click)="addMarket(form.value)" data-dismiss="modal">Add+</button>
+      </div>
+    </div>
+  </div>
+</div>

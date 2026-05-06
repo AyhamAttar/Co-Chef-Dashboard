@@ -1,0 +1,41 @@
+<div class="container board">
+  <div class="row">
+    <div class="input-group search">
+      <input type="search" class="form-control" placeholder="Search" name="search" #search [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)">
+      <div class="input-group-append">
+        <button class="btn btn-primary btn-cochef">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="input-group add">
+      <input class="form-control" type="text" placeholder="new tag :" name="name" #tagName>
+      <div class="input-group-append">
+        <a class="btn btn-primary btn-cochef" (click)="addTag(tagName.value); tagName.value=''">Add +</a>
+      </div>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr class="tr-center">
+        <th>#</th>
+        <th>Name</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (tag of tags() | filter:searchTerm(); track tag.id) {
+        <tr class="tr-center">
+          <td> {{tag.id}} </td>
+          <td> {{tag.name}} </td>
+          <td>
+            <a class="btn btn-danger" (click)="deleteTag(tag); searchTerm.set('')">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

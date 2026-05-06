@@ -1,0 +1,55 @@
+<div class="container board">
+  <div class="row">
+    <div class="input-group search">
+      <input type="search" class="form-control" placeholder="Search" name="search" #search [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)">
+      <div class="input-group-append">
+        <button class="btn btn-primary btn-cochef">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr class="tr-center">
+        <th>#</th>
+        <th>Name</th>
+        <th>State</th>
+        <th> </th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users() | filter:searchTerm(); track user.id) {
+        <tr class="tr-center" [class.blocked]="user.state === 'blocked'">
+          <td> {{user.id}} </td>
+          <td> {{user.name}} </td>
+          <td> {{user.state}} </td>
+          <td>
+            @if (user.state === 'active') {
+              <a class="btn btn-danger" (click)="changeUserState(user)">
+                <i class="bi bi-slash-circle"></i>
+              </a>
+            } @else {
+              <a class="btn btn-danger" (click)="changeUserState(user)">
+                <i class="bi bi-check-circle"></i>
+              </a>
+            }
+          </td>
+          <td>
+            @if (!user.chef_id) {
+              <a class="btn btn-info" (click)="addChef(user)">
+                <i class="bi bi-person-plus"></i>
+              </a>
+            } @else {
+              <a class="badge badge-info">
+                {{user.chef_id}}
+              </a>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

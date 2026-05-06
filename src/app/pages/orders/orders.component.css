@@ -1,0 +1,62 @@
+.card {
+    background-color: gainsboro;
+    height: 200px;
+    margin-top: 15px;
+    position: relative;
+    border: none;
+    box-shadow: -1px -1px 6px 1px #750706;
+}
+
+.badge-cochef {
+    color: white;
+    background-color: #750706;
+    font-size: .9rem;
+    width: 100%;
+    margin-top: 25px;
+    padding: 10px;
+}
+
+.badge-cochef-alt {
+    color: #750706;
+    background-color: white;
+    margin-left: 15px;
+}
+
+.table td,
+.table th {
+    border: none;
+    padding: 0.2rem 0.75rem;
+    text-overflow: ellipsis;
+}
+
+.table {
+    text-overflow: ellipsis;
+}
+
+.modal-content {
+    min-height: 70vh;
+    max-height: 90vh;
+    overflow: auto;
+    border: none;
+    box-shadow: 1px 1px 8px 2px black;
+}
+
+.modal-header {
+    justify-content: center;
+    background-color: #470f10;
+    color: white;
+    border: none;
+}
+
+.modal-footer {
+    position: relative;
+}
+
+.modal-footer>* {
+    margin: unset;
+}
+
+.modal-body table th,
+.modal-body table td {
+    padding: 0.75rem;
+}

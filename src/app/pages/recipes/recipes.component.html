@@ -1,0 +1,96 @@
+<div class="container d-flex flex-wrap justify-content-between mb-5">
+  @for (recipe of recipes(); track recipe.id; let i = $index) {
+    <div class="card col-lg-3 col-sm-12 cell">
+      <span class="badge badge-primary badge-cochef">{{i+1}}</span>
+      <img class="card-img-top" src="{{url + recipe.image}}" title="show details" alt="{{recipe.name}}">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{recipe.name}}
+        </h5>
+        <a class="btn btn-primary btn-card btn-card-accept" (click)="showRecipe(recipe)" data-toggle="modal" data-target="#showRecipe" style="width: 100%;">Show Details</a>
+      </div>
+    </div>
+  }
+  <div class="empty"> </div>
+</div>
+
+<!-- Show Modal -->
+<div id="showRecipe" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    @if (!showIngredients()) {
+      @let current = currentRecipe();
+      <div class="modal-content cell">
+        <div class="modal-header">
+          <h4 class="modal-title"> {{current.name}} </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="img-container">
+                <img src="{{url + current.image}}" title="show details" alt="{{current.name}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <table class="table">
+                <tr>
+                  <td> <b>name :</b> </td>
+                  <td>{{current.name}}</td>
+                </tr>
+                <tr>
+                  <td> <b>price :</b> </td>
+                  <td>{{current.price | number : '1.0'}}</td>
+                </tr>
+                <tr>
+                  <td> <b>calories :</b> </td>
+                  <td>{{current.calories}}</td>
+                </tr>
+                <tr>
+                  <td> <b>shares :</b> </td>
+                  <td>{{current.shares_number}}</td>
+                </tr>
+                <tr>
+                  <td> <b>duration :</b> </td>
+                  <td>{{current.preparation_time | duration}}</td>
+                </tr>
+                <tr>
+                  <td> <b>category :</b> </td>
+                  <td>{{current.category}}</td>
+                </tr>
+                <tr>
+                  <td> <a class="btn btn-primary btn-cochef" (click)="showRecipeIngredients()">Ingredients</a> </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-primary btn-card btn-card-accept" (click)="acceptRecipe(current)" data-dismiss="modal">Accept</a>
+          <a class="btn btn-secondary btn-card btn-card-reject" (click)="rejectRecipe(current)" data-dismiss="modal">Reject</a>
+        </div>
+      </div>
+    } @else {
+      @let current = currentRecipe();
+      <div class="modal-content">
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+              <th> Ingredient </th>
+              <th> Quantity </th>
+            </tr>
+            @for (ingredient of current.ingredients; track ingredient.id) {
+              <tr>
+                <td> {{ingredient.name}} </td>
+                <td> {{ingredient.quantity + " " + ingredient.amount?.unit}} </td>
+              </tr>
+            }
+          </table>
+          <div class="col-lg-6" style="position: absolute; bottom: 20px; left: 10px;">
+            <a class="btn btn-primary btn-cochef" (click)="showRecipeIngredients()">back</a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

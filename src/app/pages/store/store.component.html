@@ -1,0 +1,197 @@
+<div class="container d-flex flex-wrap justify-content-between mb-5">
+  @for (ingredient of ingredients(); track ingredient.id) {
+    <div class="card col-lg-2 col-sm-3 cell">
+      <span class="badge badge-primary badge-cochef">{{ingredient.id}}</span>
+      <img class="card-img-top" src="{{url + ingredient.image}}" title="show details" alt="{{ingredient.name}}" (click)="showIngredient(ingredient)" data-toggle="modal" data-target="#showIngredient">
+      <div class="overlay" (click)="showIngredient(ingredient)" data-toggle="modal" data-target="#showIngredient">
+        <span> {{ingredient.name}} </span>
+      </div>
+      <div class="card-body">
+        <a class="btn btn-primary btn-card btn-card-accept" (click)="showIngredient(ingredient)" data-toggle="modal" data-target="#editIngredient">Edit</a>
+        <a class="btn btn-secondary btn-card btn-card-reject" (click)="deleteIngredient(ingredient)">Delete</a>
+      </div>
+    </div>
+  }
+  <div class="empty"> </div>
+</div>
+<div class="mb-5" style="margin: auto; width: 25%;">
+  <a class="btn btn-primary btn-cochef" data-toggle="modal" data-target="#addIngredient" style="width: 100%;">
+    Add Ingredient +
+  </a>
+</div>
+
+
+<!-- Show Modal -->
+<div id="showIngredient" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    @let currentShow = currentIngredient();
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> {{currentShow.name}} </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="img-container">
+              <img src="{{url + currentShow.image}}" title="show details" alt="{{currentShow.name}}">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <table class="table">
+              <tr>
+                <td> <b>name :</b> </td>
+                <td>{{currentShow.name}}</td>
+              </tr>
+              <tr>
+                <td> <b>price :</b> </td>
+                <td>{{currentShow.price | number : '1.0'}}</td>
+              </tr>
+              <tr>
+                <td> <b>calories :</b> </td>
+                <td>{{currentShow.calories}}</td>
+              </tr>
+              <tr>
+                <td> <b>category :</b> </td>
+                <td>{{currentShow.category}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-cochef" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<form #editForm="ngForm">
+  <div id="editIngredient" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      @let currentEdit = currentIngredient();
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> {{currentEdit.name}} </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="img-container">
+                <img src="{{url + currentEdit.image}}" title="show details" alt="{{currentEdit.name}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <table class="table">
+                <tr>
+                  <td> <b>name :</b> </td>
+                  <td> <input type="text" [ngModel]="currentEdit.name" (ngModelChange)="currentEdit.name = $event" name="name" class="edit-input"> </td>
+                </tr>
+                <tr>
+                  <td> <b>price :</b> </td>
+                  <td> <input type="text" [ngModel]="currentEdit.price" (ngModelChange)="currentEdit.price = $event" name="price" class="edit-input"> </td>
+                </tr>
+                <tr>
+                  <td> <b>calories :</b> </td>
+                  <td> <input type="text" [ngModel]="currentEdit.calories" (ngModelChange)="currentEdit.calories = $event" name="calories" class="edit-input"></td>
+                </tr>
+                <tr>
+                  <td> <b>category :</b> </td>
+                  <td>
+                    <select ngModel name="category" style="width: 80%;">
+                      @for (category of categories(); track category.id) {
+                        <option [value]="category.id" [selected]="category.name == currentEdit.category">
+                          {{category.name}}
+                        </option>
+                      }
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-cochef" (click)="editIngredient(currentEdit, editForm)" data-dismiss="modal">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Add Modal -->
+<form #addForm="ngForm">
+  <div id="addIngredient" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> Add Ingedient </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <label class="custom-file-upload" style="cursor: pointer;">
+                <input type="file" (change)="uploadFile($event)">
+                <i class="bi bi-image" style="font-size: 5rem;"></i>
+              </label>
+            </div>
+            <div class="col-lg-6">
+              <table class="table">
+                <tr>
+                  <td> <b>name :</b> </td>
+                  <td> <input type="text" ngModel name="name" required class="edit-input"> </td>
+                </tr>
+                <tr>
+                  <td> <b>price :</b> </td>
+                  <td> <input type="text" ngModel name="price" required class="edit-input"> </td>
+                </tr>
+                <tr>
+                  <td> <b>calories :</b> </td>
+                  <td> <input type="text" ngModel name="calories" required class="edit-input"></td>
+                </tr>
+                <tr>
+                  <td> <b>category :</b> </td>
+                  <td>
+                    <select ngModel required name="category" style="width: 80%;">
+                      @for (category of categories(); track category.id) {
+                        <option [value]="category.id">
+                          {{category.name}}
+                        </option>
+                      }
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <b>amount :</b> </td>
+                  <td>
+                    <select ngModel required name="amount">
+                      @for (amount of amounts(); track amount.id) {
+                        <option [value]="amount.id">
+                          {{amount.value}} {{amount.unit}}
+                        </option>
+                      }
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-cochef" [disabled]="addForm.invalid" (click)="addIngredient(addForm)" data-dismiss="modal">
+            Add
+          </button>
+          @if (addForm.invalid && addForm.dirty) {
+            <div class="alert alert-danger">All Fields Required</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

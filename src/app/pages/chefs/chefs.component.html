@@ -1,0 +1,26 @@
+<div class="container board">
+  <table class="table">
+    <thead>
+      <tr class="tr-center">
+        <th>#</th>
+        <th>Name</th>
+        <th>Availablity</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (chef of chefs() | filter:searchTerm(); track chef.id) {
+        <tr class="tr-center">
+          <td> {{chef.id}} </td>
+          <td> {{chef.user?.name}} </td>
+          <td> {{chef.availability}} </td>
+          <td>
+            <a class="btn btn-danger" (click)="removeChef(chef.user)">
+              <i class="bi bi-slash-circle"></i>
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
